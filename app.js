@@ -39,6 +39,19 @@ const PAYMENTS = [
   "Other",
 ];
 
+const CHART_COLORS = [
+  "#2563eb",
+  "#dc2626",
+  "#16a34a",
+  "#d97706",
+  "#7c3aed",
+  "#0891b2",
+  "#be123c",
+  "#65a30d",
+  "#9333ea",
+  "#0f766e",
+];
+
 const CATEGORY_MIGRATION = {
   房租水电: "房屋贷款",
   房租: "房屋贷款",
@@ -298,8 +311,9 @@ function renderCalendar() {
     const date = `${state.selectedMonth}-${String(day).padStart(2, "0")}`;
     const total = totals.get(date);
     const net = total ? total.income - total.expense : 0;
+    const tone = net > 0 ? "net-positive" : net < 0 ? "net-negative" : "";
     cells.push(`
-      <button class="calendar-day ${date === state.selectedDay ? "active" : ""}" data-date="${date}" type="button">
+      <button class="calendar-day ${date === state.selectedDay ? "active" : ""} ${tone}" data-date="${date}" type="button">
         <strong>${day}</strong>
         <span>${total ? shortMoney(net) : ""}</span>
       </button>
@@ -370,7 +384,7 @@ function renderPieChart(items) {
   let cursor = 0;
   const segments = grouped.map((item, index) => {
     const pct = total ? (item.amount / total) * 100 : 0;
-    const color = index % 2 === 0 ? "#050505" : index % 3 === 0 ? "#777" : "#cfcfcf";
+    const color = CHART_COLORS[index % CHART_COLORS.length];
     const segment = `${color} ${cursor}% ${cursor + pct}%`;
     cursor += pct;
     return { ...item, pct, color, segment };

@@ -10,6 +10,12 @@
   --gray-100: #f7f7f7;
   --white: #ffffff;
   --line: #dedede;
+  --income: #15803d;
+  --income-soft: #e8f6ed;
+  --expense: #dc2626;
+  --expense-soft: #fbeaea;
+  --trend: #2563eb;
+  --warning: #d97706;
   --radius: 8px;
   --mono: "SF Mono", "Menlo", "Consolas", monospace;
   --sans: "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", sans-serif;
@@ -328,11 +334,11 @@ button:focus-visible {
 }
 
 .income {
-  color: var(--black);
+  color: var(--income);
 }
 
 .expense {
-  color: var(--gray-700);
+  color: var(--expense);
 }
 
 .control-panel {
@@ -367,6 +373,26 @@ button:focus-visible {
   background: var(--black);
   color: var(--white);
   border-color: var(--black);
+}
+
+.calendar-day.net-positive:not(.active) {
+  background: var(--income-soft);
+  border-color: rgba(21, 128, 61, 0.3);
+}
+
+.calendar-day.net-positive:not(.active) span {
+  color: var(--income);
+  font-weight: 800;
+}
+
+.calendar-day.net-negative:not(.active) {
+  background: var(--expense-soft);
+  border-color: rgba(220, 38, 38, 0.24);
+}
+
+.calendar-day.net-negative:not(.active) span {
+  color: var(--expense);
+  font-weight: 800;
 }
 
 .calendar-day span {
@@ -404,6 +430,42 @@ button:focus-visible {
   overflow-wrap: anywhere;
 }
 
+.summary-grid article:nth-child(1) {
+  background: var(--income-soft);
+  border-color: rgba(21, 128, 61, 0.24);
+}
+
+.summary-grid article:nth-child(1) strong {
+  color: var(--income);
+}
+
+.summary-grid article:nth-child(2) {
+  background: var(--expense-soft);
+  border-color: rgba(220, 38, 38, 0.22);
+}
+
+.summary-grid article:nth-child(2) strong {
+  color: var(--expense);
+}
+
+.summary-grid article:nth-child(3) {
+  background: #fff7ed;
+  border-color: rgba(217, 119, 6, 0.26);
+}
+
+.summary-grid article:nth-child(3) strong {
+  color: var(--warning);
+}
+
+.summary-grid article:nth-child(4) {
+  background: #eff6ff;
+  border-color: rgba(37, 99, 235, 0.22);
+}
+
+.summary-grid article:nth-child(4) strong {
+  color: var(--trend);
+}
+
 .bar-chart {
   min-height: 220px;
   display: grid;
@@ -438,11 +500,11 @@ button:focus-visible {
 }
 
 .income-bar {
-  background: var(--black);
+  background: linear-gradient(180deg, #34d399 0%, var(--income) 100%);
 }
 
 .expense-bar {
-  background: var(--gray-500);
+  background: linear-gradient(180deg, #fb7185 0%, var(--expense) 100%);
 }
 
 .pie-layout {
@@ -525,7 +587,7 @@ button:focus-visible {
 
 .trend-chart polyline {
   fill: none;
-  stroke: var(--black);
+  stroke: var(--trend);
   stroke-width: 3;
   vector-effect: non-scaling-stroke;
 }
