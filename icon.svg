@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <rect width="256" height="256" rx="56" fill="#050505" />
+  <rect x="18" y="18" width="220" height="220" rx="42" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.18" />
+  <text
+    x="128"
+    y="164"
+    fill="#ffffff"
+    font-family="Songti SC, STKaiti, serif"
+    font-size="134"
+    font-weight="900"
+    text-anchor="middle"
+    letter-spacing="0"
+  >帳</text>
+  <path d="M68 184h120" stroke="#ffffff" stroke-width="8" stroke-linecap="square" opacity="0.9" />
+</svg>

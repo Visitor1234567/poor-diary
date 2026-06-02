@@ -1,0 +1,16 @@
+{
+  "name": "穷人日记",
+  "short_name": "穷人日记",
+  "description": "黑白极简 iOS 记账工具，适合纽约有房贷、HOA 和用车成本的人随手记录。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

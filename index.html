@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#050505" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="穷人日记" />
+    <title>穷人日记</title>
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-bar">
+        <div class="brand-mark" aria-hidden="true">帳</div>
+        <div>
+          <p class="eyebrow">Poor Ledger</p>
+          <h1>穷人日记</h1>
+        </div>
+        <button id="exportButton" class="icon-button" type="button" aria-label="导出 Excel">
+          XLS
+        </button>
+      </header>
+
+      <main>
+        <section class="tab-panel active" id="add">
+          <section class="balance-panel">
+            <p id="periodLabel">本月结余</p>
+            <strong id="balanceAmount">$0.00</strong>
+            <span id="balanceHint">今天花了多少？</span>
+          </section>
+
+          <form id="transactionForm" class="form-panel">
+            <div class="segmented-control" aria-label="收支类型">
+              <label>
+                <input type="radio" name="type" value="expense" checked />
+                <span>支出</span>
+              </label>
+              <label>
+                <input type="radio" name="type" value="income" />
+                <span>收入</span>
+              </label>
+            </div>
+
+            <label class="amount-field">
+              <span>金额</span>
+              <input
+                id="amountField"
+                type="number"
+                name="amount"
+                min="0"
+                step="0.01"
+                inputmode="decimal"
+                placeholder="0.00"
+                required
+              />
+            </label>
+
+            <div class="field-grid">
+              <label>
+                <span>时间</span>
+                <input id="datetimeField" type="datetime-local" name="datetime" required />
+              </label>
+              <label>
+                <span>消费类型</span>
+                <select id="categoryField" name="category" required></select>
+              </label>
+              <label>
+                <span>支付手段</span>
+                <select id="paymentField" name="payment" required></select>
+              </label>
+              <label>
+                <span>商家 / 对象</span>
+                <input name="merchant" maxlength="48" placeholder="Costco / MTA / HOA" />
+              </label>
+              <label>
+                <span>标签</span>
+                <select name="tag">
+                  <option>必要</option>
+                  <option>可避免</option>
+                  <option>家庭</option>
+                  <option>投资</option>
+                  <option>冲动消费</option>
+                </select>
+              </label>
+              <label>
+                <span>备注</span>
+                <input name="note" maxlength="120" placeholder="一句话记下来" />
+              </label>
+            </div>
+
+            <button class="primary-button" type="submit">记下这笔</button>
+          </form>
+
+          <section class="list-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Latest</p>
+                <h2>最近交易</h2>
+              </div>
+              <button id="useNowButton" class="text-button" type="button">当前时间</button>
+            </div>
+            <ul id="latestList" class="transaction-list"></ul>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="calendar">
+          <section class="control-panel">
+            <label>
+              <span>月份</span>
+              <input id="monthSelector" type="month" />
+            </label>
+          </section>
+          <section class="calendar-panel">
+            <div id="calendarGrid" class="calendar-grid"></div>
+          </section>
+          <section class="list-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Day Book</p>
+                <h2 id="selectedDayTitle">当日记录</h2>
+              </div>
+            </div>
+            <ul id="dayList" class="transaction-list"></ul>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="stats">
+          <section class="summary-grid">
+            <article>
+              <span>收入</span>
+              <strong id="incomeMetric">$0.00</strong>
+            </article>
+            <article>
+              <span>支出</span>
+              <strong id="expenseMetric">$0.00</strong>
+            </article>
+            <article>
+              <span>日均支出</span>
+              <strong id="dailyMetric">$0.00</strong>
+            </article>
+            <article>
+              <span>最大分类</span>
+              <strong id="topMetric">暂无</strong>
+            </article>
+          </section>
+
+          <section class="chart-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Bars</p>
+                <h2>消费和收入柱状图</h2>
+              </div>
+            </div>
+            <div id="barChart" class="bar-chart"></div>
+          </section>
+
+          <section class="chart-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Pie</p>
+                <h2>消费类型饼状图</h2>
+              </div>
+            </div>
+            <div id="pieChart" class="pie-layout"></div>
+          </section>
+
+          <section class="chart-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Trend</p>
+                <h2>12 个月趋势曲线</h2>
+              </div>
+            </div>
+            <div id="trendChart" class="trend-chart"></div>
+          </section>
+        </section>
+
+        <section class="tab-panel" id="ai">
+          <section class="ai-panel">
+            <p class="eyebrow">Thinking</p>
+            <h2>AI 深度分析</h2>
+            <p class="helper-text">
+              默认只上传汇总后的账本，不上传逐笔隐私流水。没有 API Key 时可以复制提示词到 ChatGPT。
+            </p>
+
+            <label>
+              <span>OpenAI API Key</span>
+              <input id="apiKeyField" type="password" placeholder="sk-..." autocomplete="off" />
+            </label>
+            <label>
+              <span>模型</span>
+              <input id="modelField" value="gpt-5" />
+            </label>
+
+            <div class="button-row">
+              <button id="aiButton" class="primary-button" type="button">分析我的本月账单</button>
+              <button id="copyPromptButton" class="secondary-button" type="button">复制提示词</button>
+            </div>
+          </section>
+
+          <section class="ai-result-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Advice</p>
+                <h2>穷人军师</h2>
+              </div>
+            </div>
+            <div id="aiResult" class="ai-result"></div>
+          </section>
+
+          <section class="backup-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Backup</p>
+                <h2>导出与备份</h2>
+              </div>
+            </div>
+            <div class="button-row">
+              <button id="csvButton" class="secondary-button" type="button">导出 CSV</button>
+              <button id="jsonButton" class="secondary-button" type="button">备份 JSON</button>
+              <label class="file-button">
+                恢复备份
+                <input id="restoreInput" type="file" accept="application/json" />
+              </label>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="主导航">
+        <button class="tab-button active" data-tab="add" type="button">
+          <span>记一笔</span>
+        </button>
+        <button class="tab-button" data-tab="calendar" type="button">
+          <span>日历</span>
+        </button>
+        <button class="tab-button" data-tab="stats" type="button">
+          <span>统计</span>
+        </button>
+        <button class="tab-button" data-tab="ai" type="button">
+          <span>AI</span>
+        </button>
+      </nav>
+    </div>
+
+    <template id="transactionItemTemplate">
+      <li class="transaction-item">
+        <div>
+          <strong class="item-title"></strong>
+          <p class="item-meta"></p>
+        </div>
+        <div class="item-side">
+          <strong class="item-amount"></strong>
+          <button class="delete-button" type="button">删除</button>
+        </div>
+      </li>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
